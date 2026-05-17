@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yamees School — Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <div class="logo" onclick="showPage('home')">
+    <div class="logo-icon">🎓</div>
+    <div class="logo-text"><span>Yamees</span> School</div>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Dashboard</a></li>
+    <li><a onclick="showPage('students')" id="nav-students">Ardayda</a></li>
+    <li><a onclick="showPage('teachers')" id="nav-teachers">Macallimiin</a></li>
+    <li><a onclick="showPage('grades')" id="nav-grades">Darajada</a></li>
+    <li><a onclick="showPage('attendance')" id="nav-attendance">Xaadirada</a></li>
+    <li><a onclick="showPage('timetable')" id="nav-timetable">Jadwalka</a></li>
+    <li><a onclick="showPage('reports')" id="nav-reports">Warbixinta</a></li>
+  </ul>
+  <button class="nav-btn" onclick="showPage('students');setTimeout(()=>openStudentModal(),150)">+ Ku Dar Arday</button>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div>
+      <div class="sec-label">Nidaamka Maamulka Dugsiga</div>
+      <h1>Ku Soo Dhawoow<br><span class="hl">Yamees School</span></h1>
+      <p class="hero-sub">Platform oo dhamaystiran oo loogu talagalay maamulka dugsiga — ku maamul ardayda, macallimiinta, darajada, xaadirada, iyo jadwalka, meeshaan kaliya.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="showPage('students')">Maamul Ardayda →</button>
+        <button class="btn btn-outline" onclick="showPage('reports')">Arag Warbixinta</button>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-icon">👤</div><div class="kpi-val" id="kpi-students">0</div><div class="kpi-label">Ardayda Guud</div><div class="kpi-trend">↑ Xilli Cusub</div></div>
+        <div class="kpi"><div class="kpi-icon">👩‍🏫</div><div class="kpi-val" id="kpi-teachers">0</div><div class="kpi-label">Macallimiin</div><div class="kpi-trend">↑ Active</div></div>
+        <div class="kpi"><div class="kpi-icon">📚</div><div class="kpi-val">6</div><div class="kpi-label">Maadooyinka</div><div class="kpi-trend">Barnaamij Firfircoon</div></div>
+        <div class="kpi"><div class="kpi-icon">📅</div><div class="kpi-val" id="kpi-att">—</div><div class="kpi-label">Xaadir Maanta</div><div class="kpi-trend">↑ Wanaagsan</div></div>
+      </div>
+    </div>
+    <div class="sch-card">
+      <div class="sch-head"><h3 style="margin:0;font-size:.9rem">Jadwalka Maanta</h3><span class="sch-badge" id="today-label">Isniin</span></div>
+      <div class="sch-row"><span class="sch-time">8:00 AM</span><div class="sch-dot"></div><span class="sch-subj">Xisaab</span><span class="sch-room">Qol 101</span></div>
+      <div class="sch-row"><span class="sch-time">9:00 AM</span><div class="sch-dot"></div><span class="sch-subj">Ingiriisi</span><span class="sch-room">Qol 203</span></div>
+      <div class="sch-row"><span class="sch-time">10:00 AM</span><div class="sch-dot"></div><span class="sch-subj">Sayniska</span><span class="sch-room">Lab 1</span></div>
+      <div class="sch-row"><span class="sch-time">11:00 AM</span><div class="sch-dot" style="background:var(--gold)"></div><span class="sch-subj" style="color:var(--gold)">Nasasho ☕</span><span class="sch-room">—</span></div>
+      <div class="sch-row"><span class="sch-time">11:30 AM</span><div class="sch-dot"></div><span class="sch-subj">Taariikhda</span><span class="sch-room">Qol 105</span></div>
+      <div class="sch-row"><span class="sch-time">12:30 PM</span><div class="sch-dot"></div><span class="sch-subj">Cilmiga Diinta</span><span class="sch-room">Qol 202</span></div>
+      <div class="sch-row"><span class="sch-time">1:30 PM</span><div class="sch-dot"></div><span class="sch-subj">Jimicsiga</span><span class="sch-room">Garoonka</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDENTS -->
+<div class="page" id="page-students">
+  <div class="sec-label">Maamulka</div>
+  <h2>Ardayda</h2>
+  <p class="page-desc">Ku dar, wax ka beddel, raadi oo maamul ardayda dhan ee diiwaan gashan.</p>
+  <div class="toolbar">
+    <div class="search-box"><span>🔍</span><input type="text" id="stu-search" placeholder="Raadi magac ama ID..." oninput="renderStudents()"></div>
+    <select class="filter" id="stu-filter" onchange="renderStudents()">
+      <option value="">Fasalka Dhan</option>
+      <option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+    </select>
+    <button class="btn btn-primary btn-sm" onclick="openStudentModal()">+ Ku Dar Arday</button>
+  </div>
+  <div class="tbl-wrap">
+    <table><thead><tr><th>Arday</th><th>Fasalka</th><th>Jinsiga</th><th>Da'da</th><th>Telefoon</th><th>Xaaladda</th><th>Ficilada</th></tr></thead>
+    <tbody id="stu-body"></tbody></table>
+  </div>
+</div>
+
+<!-- TEACHERS -->
+<div class="page" id="page-teachers">
+  <div class="sec-label">Shaqaalaha</div>
+  <h2>Macallimiin</h2>
+  <p class="page-desc">Ku maamul macallimiin, maadooyinkooda iyo xogtoodda xiriirka.</p>
+  <div class="toolbar">
+    <div class="search-box"><span>🔍</span><input type="text" id="tch-search" placeholder="Raadi macallin..." oninput="renderTeachers()"></div>
+    <button class="btn btn-primary btn-sm" onclick="openTeacherModal()">+ Ku Dar Macallin</button>
+  </div>
+  <div class="teachers-grid" id="tch-grid"></div>
+</div>
+
+<!-- GRADES -->
+<div class="page" id="page-grades">
+  <div class="sec-label">Diiwaanka Waxbarashada</div>
+  <h2>Darajada & Natiijada</h2>
+  <p class="page-desc">Geli oo la socod natiijada ardayda maadooyinkasta.</p>
+  <div class="grades-layout">
+    <div class="card">
+      <h3>📝 Gelinta Dhibcaha</h3>
+      <div style="margin-bottom:1rem"><label class="lbl">Dooro Arday</label><select class="inp" id="grade-student" onchange="renderGradeTable()"></select></div>
+      <div class="tbl-wrap"><table class="grade-table"><thead><tr><th>Maadada</th><th>Dhibco /100</th><th>Darajada</th></tr></thead><tbody id="grade-body"></tbody></table></div>
+      <button class="btn btn-success" style="margin-top:1rem;width:100%" onclick="saveGrades()">💾 Kaydi Dhibcaha</button>
+    </div>
+    <div class="card">
+      <h3>📊 Natiijadii La Keydiay</h3>
+      <div style="margin-bottom:1rem"><label class="lbl">Dooro Arday</label><select class="inp" id="result-student" onchange="renderResultTable()"></select></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Maadada</th><th>Dhibco</th><th>Darajada</th></tr></thead><tbody id="result-body"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- ATTENDANCE -->
+<div class="page" id="page-attendance">
+  <div class="sec-label">Xaadirada</div>
+  <h2>Xaadir Maanta</h2>
+  <p class="page-desc">Ku calaamadee xaadir, maqnaanshaha ama daahsanaanta ardayda maanta.</p>
+  <div class="toolbar">
+    <select class="filter" id="att-filter" onchange="renderAttendance()">
+      <option value="">Fasalka Dhan</option>
+      <option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+    </select>
+    <button class="btn btn-success btn-sm" onclick="saveAttendance()">💾 Kaydi Xaadirada</button>
+  </div>
+  <div class="att-grid" id="att-grid"></div>
+</div>
+
+<!-- TIMETABLE -->
+<div class="page" id="page-timetable">
+  <div class="sec-label">Jadwalka</div>
+  <h2>Jadwalka Usbuuca</h2>
+  <p class="page-desc">Jadwalka fadhiga fasalada usbuuca oo dhan.</p>
+  <div class="card" style="overflow-x:auto"><table class="tt-table" id="tt-table"></table></div>
+</div>
+
+<!-- REPORTS -->
+<div class="page" id="page-reports">
+  <div class="sec-label">Falanqaynta & Warbixinta</div>
+  <h2>Warbixinta Dugsiga</h2>
+  <p class="page-desc">Muuqaalka guud ee waxbarashada iyo xogta dugsiga.</p>
+  <div class="reports-grid">
+    <div class="report-card"><h3>📊 Celceliska Dhibcaha Maadooyinka</h3><div class="bar-chart-wrap" id="rpt-bars"></div></div>
+    <div class="report-card"><h3>🏅 Qaybsanaanta Darajooyinka</h3><div class="donut-wrap"><svg id="donut-svg" width="110" height="110" viewBox="0 0 110 110"></svg><div class="donut-legend" id="donut-legend"></div></div></div>
+    <div class="report-card"><h3>📅 Xaadirada Fasalka</h3><div id="rpt-att" style="margin-top:.5rem"></div></div>
+    <div class="report-card"><h3>⚡ Xog Degdeg</h3><div id="rpt-quick"></div></div>
+  </div>
+  <div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">
+    <button class="btn btn-primary" onclick="exportReport()">📥 Soo Deji Warbixinta (JSON)</button>
+    <button class="btn btn-outline" onclick="window.print()">🖨️ Daabac</button>
+  </div>
+</div>
+
+<!-- MODAL: STUDENT -->
+<div class="modal-overlay" id="modal-student">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-stu-title">Ku Dar Arday Cusub</span>
+      <button class="modal-close" onclick="closeModal('modal-student')">✕</button>
+    </div>
+    <div class="form-grid">
+      <div><label class="lbl">Magaca Buuxa *</label><input class="inp" id="sf-name" placeholder="Faadumo Xasan"></div>
+      <div><label class="lbl">ID Ardayga *</label><input class="inp" id="sf-id" placeholder="YS-2025-001"></div>
+      <div><label class="lbl">Fasalka</label><select class="inp" id="sf-grade"><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select></div>
+      <div><label class="lbl">Jinsiga</label><select class="inp" id="sf-gender"><option>Wiil</option><option>Gabar</option></select></div>
+      <div><label class="lbl">Da'da</label><input class="inp" type="number" id="sf-age" placeholder="15" min="10" max="22"></div>
+      <div><label class="lbl">Telefoonka Waalida</label><input class="inp" id="sf-phone" placeholder="+252..."></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-student')">Jooji</button>
+      <button class="btn btn-primary btn-sm" onclick="saveStudent()">Kaydi Arday</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: TEACHER -->
+<div class="modal-overlay" id="modal-teacher">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-tch-title">Ku Dar Macallin Cusub</span>
+      <button class="modal-close" onclick="closeModal('modal-teacher')">✕</button>
+    </div>
+    <div class="form-grid">
+      <div><label class="lbl">Magaca Buuxa *</label><input class="inp" id="tf-name" placeholder="Axmed Cali"></div>
+      <div><label class="lbl">Maadada *</label><select class="inp" id="tf-subject"><option>Xisaab</option><option>Ingiriisi</option><option>Sayniska</option><option>Taariikhda</option><option>Cilmiga Diinta</option><option>Jimicsiga</option><option>ICT</option></select></div>
+      <div><label class="lbl">Khibradda</label><input class="inp" id="tf-exp" placeholder="5 sano"></div>
+      <div><label class="lbl">Telefoon</label><input class="inp" id="tf-phone" placeholder="+252..."></div>
+      <div><label class="lbl">Shahaadada</label><select class="inp" id="tf-qual"><option>B.Ed</option><option>M.Ed</option><option>PhD</option><option>Diploma</option></select></div>
+      <div><label class="lbl">Email</label><input class="inp" id="tf-email" placeholder="macallin@yamees.edu"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-teacher')">Jooji</button>
+      <button class="btn btn-primary btn-sm" onclick="saveTeacher()">Kaydi Macallin</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✅ <span id="toast-msg"></span></div>
+
+<script src="main.js"></script>
